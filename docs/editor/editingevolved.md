@@ -1,159 +1,115 @@
 ---
-Order: 4
+Order: 5
 Area: editor
-TOCTitle: Editing Evolved
-PageTitle: Editing Evolved
-DateApproved: 12/18/2015
-MetaDescription: Visual Studio Code is a first class editor - but it's also so much more with features such as IntelliSense and Debugging.
+TOCTitle: Code Navigation
+ContentId: 8966BBFD-C66D-4283-9DCA-8CAC0179886E
+PageTitle: Code Navigation in Visual Studio Code
+DateApproved: 2/6/2019
+MetaDescription: Visual Studio Code is a first class editor - but it's also so much more with features such as IntelliSense and smart code navigation.
 ---
+# Code Navigation
 
-# Editing Evolved
+Visual Studio Code has a high productivity code editor which, when combined with programming language services, gives you the power of an IDE and the speed of a text editor. In this topic, we'll first describe VS Code's language intelligence features (suggestions, parameter hints, smart code navigation) and then show the power of the core text editor.
 
-Visual Studio Code features a battle-tested code editor that has most of the industry standard features, but also has some delights. We've been using it to build VS Code and we hope you'll love it too. This topic will walk you through some of the notable features of the code editor.
+## Quick file navigation
 
-## Bracket matching
+>**Tip:** You can open any file by its name when you type `kb(workbench.action.quickOpen)` (**Quick Open**).
 
-Matching brackets will be highlighted as soon as the cursor is near one of them. The right bracket will always be found, regardless of embedded languages.
+The Explorer is great for navigating between files when you are exploring a project. However, when you are working on a task, you will find yourself quickly jumping between the same set of files. VS Code provides two powerful commands to navigate in and across files with easy-to-use key bindings.
 
-![Bracket Matching](images/editingevolved/brackets.png)
+Hold `kbstyle(Ctrl)` and press `kbstyle(Tab)` to view a list of all files open in an editor group. To open one of these files, use `kbstyle(Tab)` again to pick the file you want to navigate to, then release `kbstyle(Ctrl)` to open it.
 
-> **Tip:** You can jump to the matching bracket with `kb(editor.action.jumpToBracket)`
+![Quick Navigation](images/editingevolved/quicknav.png)
 
-## Selection & Multi-cursor
-
-VS Code has support for multiple cursors. You can add secondary cursors (rendered thinner) with `kbstyle(Alt+Click)`. Each cursor operates independently based on the context it sits in. The most common way to add more cursors is with `kb(editor.action.insertCursorBelow)` or `kb(editor.action.insertCursorAbove)` that insert cursors below or above.
-
-> **Note:** Your graphics card provider might overwrite these default shortcuts.
-
-![Multi-cursor](images/editingevolved/multicursor.gif)
-
-`kb(editor.action.addSelectionToNextFindMatch)` selects the word at the cursor, or the next occurrence of the current selection.  `kb(editor.action.moveSelectionToNextFindMatch)` moves the last added cursor to next occurrence of the current selection.
-
-
-> **Tip:** You can add more cursors also with `kb(editor.action.selectHighlights)`, which will add a selection at each occurrence of the current selected text or with `kb(editor.action.changeAll)`, which will add a selection at each occurrence of the current word.
-
-### Shrink/expand selection
-Quickly shrink or expand the current selection (applies to all languages). Trigger it with `kb(editor.action.smartSelect.shrink)` and `kb(editor.action.smartSelect.grow)`
-
-Here's an example of expanding the selection with `kb(editor.action.smartSelect.grow)`:
-
-![Expand selection](images/editingevolved/expandselection.gif)
-
-## IntelliSense
-
-We'll always offer word completion, but for the rich [languages](/docs/languages/overview.md), such as JavaScript, JSON, HTML, CSS, Less, Sass, C# and TypeScript, we offer a true IntelliSense experience. If a language service knows possible completions, the IntelliSense suggestions will pop up as you type (we call it affectionately 24x7 IntelliSense). You can always manually trigger it with `kb(editor.action.triggerSuggest)`.  Out of the box, `kbstyle(.)`, `kbstyle(Tab)` or `kbstyle(Enter)` are accept triggers but you can also [customize these key bindings](/docs/customization/keybindings.md).
-
-
-![IntelliSense](images/editingevolved/intellisense.gif)
-
-> **Tip:** The suggestions filtering supports CamelCase so you can type the upper case letters of a method name to limit the suggestions. For example, "wl" will quickly bring up WriteLine.
-
-> **Tip:** The 24x7 IntelliSense can be configured via the `editor.quickSuggestions` and `editor.suggestOnTriggerCharacters` settings.
-
-## Parameter Hints
-
-In JavaScript, TypeScript or C#, parameter hints will pop up as you're typing a method invocation. You can navigate between different overloads with `kbstyle(Up)` and `kbstyle(Down)` and the best overload will be presented based on the arguments you pass in.
-
-![Parameter Hints](images/editingevolved/parameterhints.png)
-
-## Snippets and Emmet Abbreviations
-
-We offer built-in snippets across languages as well as support for [Emmet abbreviations](http://docs.emmet.io/). You can expand Emmet abbreviations in HTML, Razor, CSS, Less, Sass, XML or Jade with `kbstyle(Tab)`.
-
-![Emmet](images/editingevolved/emmetsnippet.gif)
-
-(See the [Emmet cheat sheet](http://docs.emmet.io/cheat-sheet/) for syntax examples.)
-
-You can also define your own snippets: Open `User Snippets` under `File | Preferences` and select the language for which the snippets should appear. Find out more about this in the [customization section](/docs/customization/userdefinedsnippets.md) of our docs.
-
+Alternatively, you can use `kb(workbench.action.navigateBack)` and `kb(workbench.action.navigateForward)` to navigate between files and edit locations. If you are jumping around between different lines of the same file, these shortcuts allow you to navigate between those locations easily.
 
 ## Go to Definition
 
-If a [language](/docs/languages/overview.md) supports it, you can go to the definition of a symbol by pressing `kb(editor.action.goToDeclaration)`.
+If a [language](/docs/languages/overview.md) supports it, you can go to the definition of a symbol by pressing `kb(editor.action.revealDefinition)`.
 
 If you press `kbstyle(Ctrl)` and hover over a symbol, a preview of the declaration will appear:
 
 ![Ctrl Hover](images/editingevolved/ctrlhover.png)
 
-> **Tip:** You can jump to the definition with `kbstyle(Ctrl+Click)` or open the definition to the side with `kbstyle(Ctrl+Alt+Click)`. If you opened a new editor window, you can go back to the previous editor with `kb(workbench.action.focusLeftEditor)`.
+> **Tip:** You can jump to the definition with `kbstyle(Ctrl+Click)` or open the definition to the side with `kbstyle(Ctrl+Alt+Click)`.
 
-## Goto Symbol
+## Go to Type Definition
 
-You can navigate symbols inside a file with `kb(workbench.action.gotoSymbol)`. By typing `kbstyle(:)` the symbols will be grouped by category. Just press `kbstyle(Up)` or `kbstyle(Down)` and navigate to the place you want.
+Some [languages](/docs/languages/overview.md) also support jumping to the type definition of a symbol by running the **Go to Type Definition** command from either the editor context menu or the **Command Palette**. This will take you to the definition of the type of a symbol. The command `editor.action.goToTypeDefinition` is not bound to a keyboard shortcut by default but you can add your own custom [keybinding](/docs/getstarted/keybindings.md).
+
+## Go to Implementation
+
+[Languages](/docs/languages/overview.md) can also support jumping to the implementation of a symbol by pressing `kb(editor.action.goToImplementation)`. For an interface, this shows all the implementors of that interface and for abstract methods, this shows all concrete implementations of that method.
+
+## Go to Symbol
+
+You can navigate symbols inside a file with `kb(workbench.action.gotoSymbol)`. By typing `kbstyle(:)` the symbols will be grouped by category. Press `kbstyle(Up)` or `kbstyle(Down)` and navigate to the place you want.
 
 ![Go to Symbol](images/editingevolved/gotosymbol.png)
 
 ## Open symbol by name
 
-In C# and in TypeScript, you can jump to a symbol across files with `kb(workbench.action.showAllSymbols)`. Just type the first letter of a type you want to navigate to, regardless of which file contains it, and press `kbstyle(Enter)`.
+Some languages support jumping to a symbol across files with `kb(workbench.action.showAllSymbols)`. Type the first letter of a type you want to navigate to, regardless of which file contains it, and press `kbstyle(Enter)`.
 
 ![Open symbol by name](images/editingevolved/symbol.png)
 
-## Gutter indicators
-
-If you open a folder that is a Git repository and begin making changes, VS Code will add useful annotations to the gutter and to the overview ruler.
-* A red triangle indicates where lines have been deleted
-* A green bar indicates new added lines
-* A blue bar indicates modified lines
-
-![Gutter indicators](images/editingevolved/gutter.png)
-
 ## Peek
 
-We think there's nothing worse than a big context switch when all you want is to quickly check something. That's why we support peeked editors. When you execute a Reference Search (via `kb(editor.action.referenceSearch.trigger)`), or a Peek Definition (via `kb(editor.action.previewDeclaration)`), we embed the result inline:
+We think there's nothing worse than a big context switch when all you want is to quickly check something. That's why we support peeked editors. When you execute a **Peek References** search (via `kb(editor.action.referenceSearch.trigger)`), or a **Peek Definition** (via `kb(editor.action.peekDefinition)`), we embed the result inline:
 
-![Find References](images/editingevolved/references.png)
+![Peek References](images/editingevolved/references.png)
 
-> **Tip:** You can navigate between different references in the peeked editor and, if you need to, you can even make quick edits right there!
+You can navigate between different references in the peeked editor and make quick edits right there. Clicking on the peeked editor filename or double-clicking in the result list will open the reference in the outer editor.
 
-> **Tip:** Clicking on the peeked editor filename or double-clicking in the result list will open the reference in the outer editor.
+> **Tip:** Additionally, the peek window is closed if you press `kbstyle(Escape)` or double-click in the peek editor region. You can disable this behavior with the `editor.stablePeek` [setting](/docs/getstarted/settings.md).
 
-## Hover
+## Bracket matching
 
-For languages that support it, the hover will show useful information, such as types of symbols, or, in the case of CSS below, the shape of the HTML that would match a certain CSS rule:
+Matching brackets will be highlighted as soon as the cursor is near one of them.
 
-![Hover](images/editingevolved/hover.png)
+![Bracket Matching](images/editingevolved/brackets.png)
+
+> **Tip:** You can jump to the matching bracket with `kb(editor.action.jumpToBracket)`
 
 ## Reference information
 
-C# supports inline reference information, that is live updated. This allows you to quickly analyze the impact of your edit or the popularity of your specific method or property throughout your project:
+Some languages like C# support inline reference information, that is updated live. This allows you to quickly analyze the impact of your edit or the popularity of your specific method or property throughout your project:
 
 ![Reference information](images/editingevolved/referenceinfo.png)
 
-> **Tip:** Directly invoke the Find References action by clicking on these annotations.
+> **Tip:** Directly invoke the **Peek References** action by clicking on these annotations.
 
-> **Tip:** Reference information can be turned on or off through the `editor.referenceInfos` setting.
+> **Tip:** Reference information shown in CodeLens can be turned on or off through the `editor.codeLens` setting.
 
 ## Rename symbol
 
-TypeScript and C# support rename symbol across files. Simply press `kb(editor.action.rename)` and then type the new desired name and press `kbstyle(Enter)`. All usages of the symbol will be renamed, across files.
+Some languages support rename symbol across files. Press `kb(editor.action.rename)` and then type the new desired name and press `kbstyle(Enter)`. All usages of the symbol will be renamed, across files.
 
 ![Rename](images/editingevolved/rename.png)
 
-## Code action
+## Errors & warnings
 
-JavaScript and CSS support code actions. A lightbulb will appear if there is a code action for the problem under the cursor. In this JavaScript example, due to the usage of `__dirname`, which is a Node.js built-in variable, the code action will propose to download and add a reference to `node.d.ts`, which contains all Node.js definitions.
+Warnings or Errors can be generated either via [configured tasks](/docs/editor/tasks.md), by rich language services, or by linters, that constantly analyze your code in the background. Since we love bug-free code, warnings and errors show up in multiple places:
 
-![Rename](images/editingevolved/quickfix.png)
-
-## Errors & Warnings
-
-Warnings or Errors can be generated either via [configured tasks](/docs/editor/tasks.md) or by the rich language services, that constantly analyze your code in the background. Since we love bug-free code, warnings and errors show up in multiple places:
-* In the status line there is a summary of all errors and warnings counts.
-* You can click on the summary or press `kb(workbench.action.showErrorsWarnings)` to see a list of all current errors.
+* In the Status Bar, there is a summary of all errors and warnings counts.
+* You can click on the summary or press `kb(workbench.actions.view.problems)` to display the **PROBLEMS** panel with a list of all current errors.
 * If you open a file that has errors or warnings, they will be rendered inline with the text and in the overview ruler.
 
-![Warnings and Errors](images/editingevolved/errors.png)
+![errors in problems panel](images/editingevolved/errors.png)
 
-> **Tip:** To loop through errors or warnings in the current file, you can press `kb(editor.action.marker.next)` or `kb(editor.action.marker.prev)` which will show an inline zone detailing the problem and possible code actions (if available):
+> **Tip:** To loop through errors or warnings in the current file, you can press `kb(editor.action.marker.nextInFiles)` or `kb(editor.action.marker.prevInFiles)` which will show an inline zone detailing the problem and possible Code Actions (if available):
 
-![Warnings and Errors](images/editingevolved/errorsinline.png)
+![Errors and Warnings Inline](images/editingevolved/errorsinline.png)
 
-## Next Steps
+## Code Action
+
+Warnings and Errors can provide Code Actions (also known as Quick Fixes) to help fix issues. These will be displayed in the editor in the left margin as a lightbulb. Clicking on the lightbulb will either display the Code Action options or perform the action.
+
+## Next steps
+
 Now that you know how the editor works, time to try a few other things...
 
-* [Why VS Code](/docs/editor/whyvscode.md) - Why we exist and where we think we can help
-* [The Basics](/docs/editor/codebasics.md) - Basic orientation around VS Code
-* [Debugging](/docs/editor/debugging.md) - This is where VS Code really shines
-* [Customization](/docs/customization/overview.md) - Configure VS Code the way you want - Themes, Settings
-
+* [Intro Video - Code Editing](/docs/introvideos/codeediting.md) - Watch an introductory video on code editing features.
+* [User Interface](/docs/getstarted/userinterface.md) - In case you missed a basic orientation around VS Code.
+* [Key Bindings](/docs/getstarted/keybindings.md) - Learn how to modify key bindings to your preference.
+* [Debugging](/docs/editor/debugging.md) - This is where VS Code really shines.

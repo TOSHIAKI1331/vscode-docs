@@ -1,162 +1,290 @@
 ---
-Order: 7
+Order: 6
 Area: languages
 TOCTitle: TypeScript
+ContentId: 05C114DF-4FDC-4C65-8954-58F5F293FAFD
 PageTitle: TypeScript Programming with Visual Studio Code
-DateApproved: 12/18/2015
+DateApproved: 2/6/2019
 MetaDescription: Get the best out editing TypeScript with Visual Studio Code.
+MetaSocialImage: images/typescript/Languages_typescript.png
 ---
 
-# Editing TypeScript
+# TypeScript in Visual Studio Code
 
-TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.
-It offers classes, modules, and interfaces to help you build robust components. A language specification can be found [here](https://github.com/Microsoft/TypeScript/tree/master/doc).
+[TypeScript](https://www.typescriptlang.org) is a typed superset of JavaScript that compiles to plain JavaScript. It offers classes, modules, and interfaces to help you build robust components. The TypeScript language specification can be found [here](https://github.com/Microsoft/TypeScript/tree/master/doc).
 
-VS Code's TypeScript support can operate in two different modes:
+![Working with TypeScript in Visual Studio Code](images/typescript/overview.png)
 
-* **File Scope**: in this mode TypeScript files opened in Visual Studio Code are treated as independent units. As long as a file `a.ts` doesn't reference a file `b.ts` explicitly (either using /// references or external modules) there is no common project context between the two files.
+## Installing the TypeScript compiler
 
-* **Explicit Project**: a TypeScript project is defined via a `tsconfig.json` file. The presence of such a file in a directory indicates that the directory is the root of a TypeScript project. The file itself lists the files belonging to the project as well as compiler options. Details about the `tsconfig.json` file can be found [here](https://github.com/Microsoft/TypeScript/wiki/tsconfig.json).
+Visual Studio Code includes TypeScript language support but does not include the TypeScript compiler, `tsc`. You will need to install the TypeScript compiler either globally or in your workspace to transpile TypeScript source code to JavaScript (`tsc HelloWorld.ts`).
 
->**Tip:** We recommend that you use explicit projects over file scope projects. Since explicit projects list the files belonging to a project language, features like `Find All References` `kb(editor.action.referenceSearch.trigger)` consider the project scope and not the file scope only.
+The easiest way to install TypeScript is through npm, the [Node.js Package Manager](https://www.npmjs.com/). If you have npm installed, you can install TypeScript globally (`-g`) on your computer by:
 
-## tsconfig.json
-Typically the first step in any new TypeScript project is to add in a `tsconfig.json` file.  This defines the TypeScript project settings such as the compiler options and the files that should be included.  To do this, open up the folder where you want to store your source and add in a new file named `tsconfig.json`.  Once in this file IntelliSense will help you along the way.
+```bash
+npm install -g typescript
+```
 
-![jsconfig.json IntelliSense](images/typescript/jsconfigintellisense.png)
+You can test your install by checking the version.
 
-A simple `tsconfig.json` looks like this for ES5, AMD modules and source maps:
+```bash
+tsc --version
+```
+
+Another option is to install the TypeScript compiler locally in your project (`npm install --save-dev typescript`) and has the benefit of avoiding possible interactions with other TypeScript projects you may have.
+
+## IntelliSense
+
+IntelliSense shows you intelligent code completion, hover info, and signature information so that you can write code more quickly and correctly.
+
+<video src="/docs/languages/typescript/intellisense.mp4" placeholder="images/typescript/intellisense-placeholder.png" autoplay loop controls muted>
+    Sorry, your browser doesn't support HTML 5 video.
+</video>
+
+VS Code provides IntelliSense for individual TypeScript files as well as TypeScript `tsconfig.json` projects.
+
+## Snippets
+
+VS Code includes basic TypeScript [snippets](/docs/editor/userdefinedsnippets.md) that are suggested as you type;
+
+<video src="/docs/languages/javascript/snippets.mp4" placeholder="images/javascript/snippets-placeholder.png" autoplay loop controls muted>
+    Sorry, your browser doesn't support HTML 5 video.
+</video>
+
+You can install extensions to get additional snippets or define your own snippets for TypeScript. See [User Defined Snippets](/docs/editor/userdefinedsnippets.md) for more information.
+
+> **Tip**: You can disable snippets by setting `editor.snippetSuggestions` to `"none"` in your [settings](/docs/getstarted/settings.md) file. If you'd like to see snippets, you can specify the order relative to suggestions; at the top (`"top"`), at the bottom (`"bottom"`), or inlined ordered alphabetically (`"inline"`). The default is `"inline"`.
+
+## JSDoc support
+
+VS Code's TypeScript IntelliSense understands many standard [JSDoc](http://usejsdoc.org) annotations, and uses them to show typing information and documentation in [suggestions](#intellisense), [hover info](#hover-information), and [signature help](#signature-help).
+
+![TypeScript language within VS Code](images/typescript/jsdocs.png)
+
+Keep in mind that when using JS Doc for TypeScript code, you should not include type annotations. The TypeScript compiler only uses TypeScript type annotations and ignores those from JS Doc.
+
+<video src="/docs/languages/typescript/jsdoc-autofill.mp4" placeholder="images/typescript/jsdoc-autofill-placeholder.png" autoplay loop controls muted>
+    Sorry, your browser doesn't support HTML 5 video.
+</video>
+
+To disable JSDoc comment suggestions in TypeScript, set `"typescript.suggest.completeJSDocs": false`.
+
+## Hover information
+
+Hover over a TypeScript symbol to quickly see its type information and relevant documentation:
+
+![Hover for a lodash function](images/typescript/hover.png)
+
+You can also show the hover info at the current cursor position with the `kb(editor.action.showHover)` keyboard shortcut.
+
+## Signature help
+
+As you write a TypeScript function call, VS Code shows information about the function signature and highlights the parameter that you are currently completing:
+
+![Signature help for the lodash capitalize function](images/typescript/signature-help.png)
+
+Signature help is shown automatically when you type a `(` or `,` within a function call. Use `kb(editor.action.triggerParameterHints)`  to manually trigger signature help.
+
+## Auto imports
+
+Automatic imports speed up coding by helping you find available symbols and automatically adding imports for them.
+
+Just start typing to see [suggestions](#intellisense) for all available TypeScript symbols in your current project.
+
+![Global symbols are shown in the suggestion list](images/typescript/auto-import-pre.png)
+
+If you choose one of the suggestions from another file or module, VS Code will automatically add an import for it. In this example, VS Code adds an import for `Hercules` to the top of the file:
+
+![After selecting a symbol from a different file, an import is added for it automatically](images/typescript/auto-import-post.png)
+
+You can disable auto imports by setting `"typescript.autoImportSuggestions.enabled": false`.
+
+## Formatting
+
+VS Code includes a TypeScript formatter that providers basic code formatting with reasonable defaults.
+
+Use the `typescript.format.*` [settings](/docs/getstarted/settings.md) to configure the built-in formatter, such as making braces appear on their own line. Or, if the built-in formatter is getting in the way, set `"typescript.format.enable"` to `false` to disable it.
+
+For more specialized code formatting styles, try installing one of the formatting extensions from the VS Code marketplace.
+
+## JSX and auto closing tags
+
+VS Code's TypeScript features also work with [JSX](https://reactjs.org/docs/introducing-jsx.html). To use JSX in your TypeScript, use the `*.tsx` file extension instead of the normal `*.ts`:
+
+![IntelliSense in JSX](images/typescript/jsx.png)
+
+VS Code also includes JSX-specific features such as autoclosing of JSX tags in TypeScript:
+
+<video src="/docs/languages/typescript/jsx-tag-complete.mp4" placeholder="images/typescript/jsx-tag-complete-placeholder.png" autoplay loop controls muted>
+    Sorry, your browser doesn't support HTML 5 video.
+</video>
+
+Set `"typescript.autoClosingTags"` to `false` to disable JSX tag closing.
+
+## Code navigation
+
+Code navigation lets you quickly navigate TypeScript projects.
+
+- **Go To Definition** `kb(editor.action.revealDefinition)` - Go to the source code of a symbol definition.
+- **Peek Definition** `kb(editor.action.peekDefinition)` - Bring up a Peek window that shows the definition of a symbol.
+- **Peek References** `kb(editor.action.referenceSearch.trigger)` - Show all references to a symbol.
+- **Go to Type Definition** `kb(editor.action.goToTypeDefinition)` - Go to the type that defines a symbol. For an instance of a class, this will reveal the class itself instead of where the instance is defined.
+- **Go to Implementation** `kb(editor.action.goToImplementation)` - Go to the implementations of an interface or abstract method.
+
+You can navigate via symbol search using the **Go to Symbol** commands from the **Command Palette** (`kb(workbench.action.showCommands)`).
+
+- **Go to Symbol in File** `kb(workbench.action.gotoSymbol)`
+- **Go to Symbol in Workspace** `kb(workbench.action.showAllSymbols)`
+
+## Rename
+
+Press `kb(editor.action.rename)` to rename the symbol under the cursor across your TypeScript project:
+
+![Renaming a method](images/typescript/rename.png)
+
+## Refactoring
+
+VS Code includes some handy refactorings for TypeScript such as **Extract function** and **Extract constant**. Just select the source code you'd like to extract and then click on the lightbulb in the gutter or press (`kb(editor.action.quickFix)`) to see available refactorings.
+
+![TypeScript refactoring](images/typescript/refactorings.png)
+
+Available refactorings include:
+
+- Extract to method or function.
+- Extract to constant.
+- Convert between named imports and namespace imports.
+- Move to new file.
+
+See [Refactorings](/docs/editor/refactoring.md) for more information about refactorings and how you can configure keyboard shortcuts for individual refactorings.
+
+## Quick fixes
+
+Quick fixes are suggested edits that address simple coding errors. Example quick fixes include:
+
+- Adding a missing `this` to a member access.
+- Fixing a misspelled property name.
+- Removing unreachable code or unused imports
+- Declaring
+
+When you move your cursor on to a TypeScript error, VS Code shows a lightbulb that indicates that quick fixes are available. Click the lightbulb or press `kb(editor.action.quickFix)` to show a list of available quick fixes and [refactorings](#refactoring).
+
+## Unused variables and unreachable code
+
+Unused TypeScript code, such the else block of an `if` statement that is always true or an unreferenced import, is faded out in the editor:
+
+![Unreachable source code faded out](images/typescript/unreachable.png)
+
+You can quickly remove this unused code by placing the cursor on it and triggering the quick fix command (`kb(editor.action.quickFix)`) or clicking on the lightbulb.
+
+To disable fading out of unused code, set `"editor.showUnused"` to `false`. You can also disable fading of unused code only in TypeScriptScript by setting:
 
 ```json
-{
-	"compilerOptions": {
-		"target": "ES5",
-		"module": "amd",
-		"sourceMap": true
-	}
-}
+"[typescript]": {
+    "editor.showUnused":  false
+},
+"[typescriptreact]": {
+    "editor.showUnused":  false
+},
 ```
 
-Now when you create a `.ts` file as part of the project we will offer up rich editing experiences and syntax validation.
+## Organize Imports
 
+The **Organize Imports** source code action sorts the imports in a TypeScript file and removes and unused imports:
 
-## Transpiling TypeScript into JavaScript
-VS Code integrates with `tsc` through our integrated [task runner](/docs/editor/tasks.md).  We can use this to transpile `.ts` files into `.js` files.  Let's walk through transpiling a simple TypeScript Hello World program.
+<video src="/docs/languages/typescript/organize-imports.mp4" placeholder="images/typescript/organize-imports-placeholder.png" autoplay loop controls muted>
+    Sorry, your browser doesn't support HTML 5 video.
+</video>
 
+You can run **Organize Imports** from the **Source Action** context menu or with the `kb(editor.action.organizeImports)` keyboard shortcut.
 
-### Step 1: Create a simple TS file
-Open VS Code on an empty folder and create a `HelloWorld.ts` file, place the following code in that file...
-
-``` typescript
-class Startup {
-    public static main(): number {
-        console.log('Hello World');
-        return 0;
-    }
-}
-```
-
-### Step 2: Create tasks.json
-The next step is to set up the task configuration.  To do this open the Command Palette with `kb(workbench.action.showCommands)` and type in `Configure Task Runner`, press `kbstyle(Enter)` to select it.
-
-This will create a sample `tasks.json` file in the `.vscode` folder.  The initial file has a large number of examples within it.
-
-> **Tip:** While the sample is there to help with common configuration settings, IntelliSense is available for the `tasks.json` file as well to help you along.  Use `kb(editor.action.triggerSuggest)` to see the available settings.
-
-The first TypeScript example uses `tsc` (the TypeScript compiler) as the command to be executed.  The task we are working with looks something like this:
+Organize imports can also be automatically when you save a TypeScript file by setting:
 
 ```json
-{
-	"version": "0.1.0",
-	"command": "tsc",
-	"isShellCommand": true,
-	"showOutput": "silent",
-	"args": ["HelloWorld.ts"],
-	"problemMatcher": "$tsc"
+"editor.codeActionsOnSave": {
+    "source.organizeImports": true
 }
 ```
 
-Under the covers we interpret `tsc` as an external task runner exposing exactly one task: the compiling of TypeScript files into JavaScript files. The command we run is `tsc HelloWorld.ts`.
+## Code suggestions
 
->**Tip:** If you don't have the TypeScript compiler installed, you can [get it here](http://www.typescriptlang.org/).
+VS Code automatically suggests some common code simplifications such as converting a chain of `.then` calls on a promise to use `async` and `await`
 
+<video src="/docs/languages/typescript/code-suggestions-convert-async.mp4" placeholder="images/typescript/code-suggestions-convert-async-placeholder.png" autoplay loop controls muted>
+    Sorry, your browser doesn't support HTML 5 video.
+</video>
 
+Set `"typescript.suggestionActions.enabled"` to `false` to disable suggestions.
 
-### Step 3: Run the Build Task
-As this is the only task in the file, you can execute it by simply pressing `kb(workbench.action.tasks.build)` (Run Build Task).  At this point you will see an additional file show up in the file list `HelloWorld.js`.
+## References CodeLens
 
-The example TypeScript file did not have any compile problems, so by running the task all that happened was a corresponding `HelloWorld.js` file was created.
+The TypeScript references CodeLens displays an inline count of reference for classes, interfaces, methods, properties, and exported objects:
 
-### Step 4: Reviewing Build Issues
-Unfortunately, most builds don't go that smoothly and the result is often some additional information.  For instance, if there was a simple error in our TypeScript file we may get the following output from `tsc`:
+![TypeScript references CodeLens](images/typescript/ts-references-code-lens.png)
 
-    HelloWorld.ts(3,17): error TS2339: Property 'logg' does not exist on type 'Console'.
+You can enable this by setting `"typescript.referencesCodeLens.enabled": true` in the User Settings file.
 
-This would show up in the output window (which can be opened using `kb(workbench.action.output.toggleOutput)`) and selecting Tasks in the output view dropdown.  We parse this output for you and highlight detected problems in the status bar.
+Click on the reference count to quickly browse a list of references:
 
-![Problems in Status Bar](images/typescript/problemstatusbar.png)
+![TypeScript references CodeLens peek](images/typescript/ts-references-code-lens-peek.png)
 
-You can click on that icon to get a list of the problems and navigate to them.
+## Implementations CodeLens
 
-![Compile Problems](images/typescript/compileerror.png)
+The TypeScript implementations CodeLens displays the number of implementors of an interface:
 
-You can also use the keyboard to open the list `kb(workbench.action.showErrorsWarnings)`.
+![TypeScript implementations CodeLens](images/typescript/ts-implementations-code-lens.png)
 
->**Tip:** Tasks offer rich support for many actions. Check the [Tasks](/docs/editor/tasks.md) topic for more information on how to configure them.
+You can enable this by setting `"typescript.implementationsCodeLens.enabled": true`.
 
+As with the references CodeLens, you can click on the implementation count to quickly browse a list of all implementations.
 
+## Update imports on file move
 
-## Goto Symbol & Show All Symbols
-`kb(workbench.action.gotoSymbol)`: lists all defined symbols of the current open TypeScript and lets you navigate in it.
+When you move or rename a file that is imported by other files in your TypeScript project, VS Code can automatically update all import paths that reference the moved file.
 
-`kb(workbench.action.showAllSymbols)`: lets you search all symbols defined in the current project or file scope. You need to have a TypeScript file open in the active editor.
+The `typescript.updateImportsOnFileMove.enabled` setting controls this behavior. Valid settings values are:
 
+* `"prompt"` - The default. Asks if paths should be updated for each file move.
+* `"always"` - Always automatically update paths.
+* `"never"` - Do not update paths automatically and do not prompt.
 
+## Debugging
 
-## Format Code
-`kb(editor.action.format)`: formats the currently selected code, or the whole document if no code is selected.
+VS Code comes with great debugging support for TypeScript, including support for sourcemaps. Set breakpoints, inspect objects, navigate the call stack, and execute code in the Debug Console. See more about debugging [here](/docs/editor/debugging.md).
 
+### Debug client side
 
+You can debug your client-side code using a browser debugger such as [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome), [Debugger for Edge](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-edge) or [Debugger for Firefox](https://marketplace.visualstudio.com/items?itemName=hbenl.vscode-firefox-debug).
 
-## JSDoc Support
-VS Code offers JSDoc support for TypeScript. Besides syntax coloring, we help you enter JSDoc comments. Simply type `/**` and it will auto insert the closing `*/`. Pressing `kbstyle(Enter)` inside a JSDoc block will indent the next line and auto insert a `*`.
+### Debug server side
 
+Debug Node.js in VS Code using the built-in debugger. Setup is easy and you can read a tutorial for Node.js debugging [here](/docs/nodejs/nodejs-tutorial.md#debugging-your-express-application).
 
-## JavaScript Source Map Support
-TypeScript debugging supports JavaScript source maps. Enable this by setting the `sourceMaps` attribute to `true` in the project's launch configuration file `launch.json`. In addition, you can specify a TypeScript file with the `program` attribute.
+![debug data inspection](images/javascript/debug_data_inspection.gif)
 
-To generate source maps for your TypeScript files, compile with the `--sourcemap` option.
+## Linters
 
-In-lined source maps (a source map where the content is stored as a data URL instead of a separate file) are also supported, although in-lined source is not yet supported.
+[Linters](https://en.wikipedia.org/wiki/Lint_%28software%29) provides warnings for suspicious looking code. While VS Code does not include a built-in TypeScript linter, TypeScript linter [extensions](/docs/editor/extension-gallery.md) available in the marketplace.
 
+[TSLint](https://github.com/palantir/tslint) is a popular TypeScript linter. The [TSLint extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin) integrates TSLint into VS Code so you can see linting errors right in the editor and even quickly many of fix them with [quick fixes](#quick-fixes).
 
-## Setting a different outDir for generated files
-If generated (transpiled) JavaScript files do not live next to their source, you can help the VS Code debugger locate them by specifying the outDir directory in the launch configuration. Whenever you set a breakpoint in the original source, VS Code tries to find the generated source, and the associated source map, in the outDir directory.
+## TypeScript extensions
 
+VS Code provides many features for TypeScript out of the box. In addition to what comes built-in, you can install an extension for greater functionality.
 
-## Hiding Derived JavaScript Files
-When you are working with TypeScript you often don’t want to see the files in the explorer or include them in search results. VS Code offers filtering capabilities to help, you can easily set an expression to hide those derived files:
+<div class="marketplace-extensions-typescript-curated"></div>
 
-`"**/*.js": { "when": "$(basename).ts"}`
+> Tip: Click on an extension tile above to read the description and reviews to decide which extension is best for you. See more in the [Marketplace](https://marketplace.visualstudio.com).
 
-This pattern will match on any JavaScript file (`**/*.js`) but only if a sibling TypeScript file with the same name is present. The result being that the file explorer will no longer show derived resources for JavaScript if they are compiled to the same location. All you have to do is configure this in the `files.exclude` setting.
+## Next steps
 
-![Hiding derived resources](images/typescript/hidingderivedresources.png)
+To learn more, see:
 
+* [TypeScript tutorial](/docs/typescript/typescript-tutorial.md) - Create a simple Hello World TypeScript in VS Code.
+* [Compiling TypeScript](/docs/typescript/typescript-compiling.md) - Compile TypeScript to a JavaScript target version.
+* [Debugging TypeScript](/docs/typescript/typescript-debugging.md) - Learn about debugging TypeScript both server and client-side with VS Code.
 
+## Common questions
 
-## Next Steps
-OK, read on to find out about:
+### Can I use the version of TypeScript that ships with VS 2015?
 
-* [JavaScript](/docs/languages/javascript.md) - we have several JavaScript specific features in VS Code
-* [Tasks](/docs/editor/tasks.md) - we used tasks to transpile your TS file. Read more to find out what else tasks can do
-* [Editing Evolved](/docs/editor/editingevolved.md) - dig into multi-cursor, snippets and more
-* [Debugging](/docs/editor/debugging.md) - we support debugging TypeScript Node.js apps
-
-## Common Questions
-
-**Q: How do I resolve a TypeScript "Cannot compile external module" error?**
-
-**A**: If you get that error, resolve it by creating a `tsconfig.json` file in the root folder of your project. The tsconfig.json file lets you control how Visual Studio Code compiles your TypeScript code. For more information, see the [typescript.json overview](https://github.com/Microsoft/TypeScript/wiki/tsconfig.json).
-
-Due to a current limitation, you must restart VS Code after adding the `tsconfig.json` file.
+No, the TypeScript language service which ships with Visual Studio 2015 and 2017 isn't compatible with VS Code. You will need to install a separate version of TypeScript from [npm](https://www.npmjs.com/package/typescript).
